@@ -50,7 +50,7 @@ body {
   background:
     radial-gradient(circle at 12% 6%, rgba(20, 116, 111, 0.26), transparent 28%),
     radial-gradient(circle at 88% 8%, rgba(255, 255, 255, 0.14), transparent 18%),
-    linear-gradient(180deg, #0d1415 0, #0d1415 760px, #f4f1eb 760px, #f4f1eb 100%);
+    linear-gradient(180deg, #0d1415 0, #0f1819 52%, #101617 100%);
   color: var(--foreground);
   font-family: var(--font-geist-sans), sans-serif;
   text-rendering: optimizeLegibility;
@@ -159,6 +159,6 @@ h6 {
   body {
     background:
       radial-gradient(circle at 18% 4%, rgba(20, 116, 111, 0.2), transparent 30%),
-      linear-gradient(180deg, #0d1415 0, #0d1415 640px, #f4f1eb 640px, #f4f1eb 100%);
+      linear-gradient(180deg, #0d1415 0, #0f1819 56%, #101617 100%);
   }
 }

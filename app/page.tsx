@@ -117,6 +117,7 @@ export default function Home() {
               eyebrow="What I Bring"
               title="A compact view of how I contribute."
               description="Focused on discovery, technical collaboration and practical AI opportunities."
+              invert
             />
 
             <div className="mt-8 grid gap-4 lg:grid-cols-3">
@@ -125,15 +126,29 @@ export default function Home() {
                   key={item.title}
                   className={`rounded-[1.6rem] border p-6 ${
                     index === 1
-                      ? "border-accent/18 bg-accent-soft/70"
-                      : "border-line bg-white/72"
+                      ? "surface-card-dark border-white/10 text-white"
+                      : "surface-card text-ink"
                   }`}
                 >
-                  <p className="eyebrow text-muted">0{index + 1}</p>
-                  <h2 className="mt-4 text-2xl font-semibold leading-tight tracking-[-0.04em] text-ink">
+                  <p
+                    className={`eyebrow ${
+                      index === 1 ? "text-white/66" : "text-ink/58"
+                    }`}
+                  >
+                    0{index + 1}
+                  </p>
+                  <h2
+                    className={`mt-4 text-2xl font-semibold leading-tight tracking-[-0.04em] ${
+                      index === 1 ? "text-white" : "text-ink"
+                    }`}
+                  >
                     {item.title}
                   </h2>
-                  <p className="mt-4 text-base leading-7 text-ink/72">
+                  <p
+                    className={`mt-4 text-base leading-7 ${
+                      index === 1 ? "text-white/74" : "text-ink/72"
+                    }`}
+                  >
                     {item.description}
                   </p>
                 </article>
@@ -149,6 +164,7 @@ export default function Home() {
                 eyebrow="Experience Snapshot"
                 title="A concise view of the roles behind the work."
                 description="Structured as a quick professional summary, not a full resume."
+                invert
               />
 
               <div className="mt-8 grid gap-4 lg:grid-cols-3">
