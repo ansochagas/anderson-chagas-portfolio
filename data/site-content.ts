@@ -3,6 +3,8 @@ export type ProfileLink = {
   label: string;
 };
 
+export type AccentTone = "blue" | "purple" | "orange" | "green";
+
 export type ResumeAsset = {
   downloadName: string;
   href: string;
@@ -40,6 +42,29 @@ export type ExpertiseGroup = {
   title: string;
 };
 
+export type HeroMetric = {
+  label: string;
+  tone: AccentTone;
+  value: string;
+};
+
+export type ExperienceHighlight = {
+  challenge: string;
+  company: string;
+  impact: string;
+  location: string;
+  period: string;
+  role: string;
+  tone: AccentTone;
+};
+
+export type SkillBlock = {
+  items: string[];
+  summary: string;
+  title: string;
+  tone: AccentTone;
+};
+
 export const navigationItems = [
   { label: "Work", href: "/#selected-work" },
   { label: "About", href: "/#about" },
@@ -71,11 +96,40 @@ export const resumeAsset: ResumeAsset = {
 export const homeHero = {
   name: "Anderson Chagas",
   title: "Senior Technical Product Manager",
+  subtitle: "SaaS, AI, Automation and Digital Transformation",
   statement:
-    "I turn complex business processes into scalable digital products, connecting product strategy, AI, automation and technical execution.",
+    "I turn product strategy, AI and operational complexity into scalable digital products.",
   supportingText:
-    "10+ years of experience across Product Management, software development, SaaS and digital transformation.",
+    "Executive product leadership with technical depth across SaaS, automation, digital transformation and AI-enabled delivery.",
 };
+
+export const heroMetrics: HeroMetric[] = [
+  {
+    value: "10+ years",
+    label: "In technology",
+    tone: "blue",
+  },
+  {
+    value: "6+ years",
+    label: "In product and governance",
+    tone: "purple",
+  },
+  {
+    value: "60K+",
+    label: "Users reached",
+    tone: "green",
+  },
+  {
+    value: "R$3M+",
+    label: "Cumulative revenue",
+    tone: "orange",
+  },
+  {
+    value: "12",
+    label: "Professionals led",
+    tone: "blue",
+  },
+];
 
 export const operatingModel = [
   {
@@ -101,6 +155,61 @@ export const operatingModel = [
 export const professionalSummary = [
   "I work at the intersection of business and engineering, leading discovery, shaping product direction and turning complex requirements into clear, buildable solutions.",
   "My software development background helps me evaluate technical trade-offs and collaborate closely with engineering teams.",
+];
+
+export const aboutSkillBlocks: SkillBlock[] = [
+  {
+    title: "Product",
+    summary:
+      "Discovery, prioritization and scope definition grounded in business value and delivery reality.",
+    items: [
+      "Product strategy",
+      "Roadmaps",
+      "Prioritization",
+      "Requirements",
+      "Acceptance criteria",
+    ],
+    tone: "blue",
+  },
+  {
+    title: "Leadership",
+    summary:
+      "Cross-functional alignment connecting stakeholders, delivery teams and technical decision-making.",
+    items: [
+      "Stakeholder alignment",
+      "Backlog ownership",
+      "Delivery readiness",
+      "Cross-functional leadership",
+      "Team coordination",
+    ],
+    tone: "purple",
+  },
+  {
+    title: "Process",
+    summary:
+      "Structured transformation work spanning AS-IS / TO-BE mapping, business rules and automation opportunities.",
+    items: [
+      "AS-IS / TO-BE",
+      "Business rules",
+      "Service design",
+      "Workflow redesign",
+      "Automation opportunities",
+    ],
+    tone: "orange",
+  },
+  {
+    title: "Technical",
+    summary:
+      "Hands-on familiarity with APIs, integrations, data workflows and AI-enabled product architecture.",
+    items: [
+      "APIs",
+      "Integrations",
+      "Data products",
+      "LLM workflows",
+      "Architecture trade-offs",
+    ],
+    tone: "green",
+  },
 ];
 
 export const whatIBring: WhatIBringItem[] = [
@@ -133,6 +242,65 @@ export const experienceSnapshot: ExperienceSnapshotItem[] = [
   {
     role: "Software Developer & Consultant",
     context: "SaaS, APIs, integrations, data and AI products",
+  },
+];
+
+export const experienceHighlights: ExperienceHighlight[] = [
+  {
+    company: "Hapvida NotreDame Intermedica",
+    role: "Senior Product Owner | Digital Transformation",
+    period: "Mar 2026 - Present",
+    location: "Fortaleza, Brazil",
+    challenge:
+      "Turn complex shared-service workflows, rules and exceptions into implementation-ready digital requirements across enterprise systems.",
+    impact:
+      "Led discovery, AS-IS / TO-BE mapping and backlog refinement across business, operations, architecture and engineering.",
+    tone: "blue",
+  },
+  {
+    company: "BCS Sports Analytics",
+    role: "Co-Founder & Product Lead | Technical Product Manager",
+    period: "2019 - Present",
+    location: "Fortaleza, Brazil",
+    challenge:
+      "Build and scale a sports analytics SaaS capable of translating live football data into practical decision support and monetizable product value.",
+    impact:
+      "Reached 60K+ users and R$3M+ in cumulative revenue while leading product vision, roadmap, monetization and continuous evolution.",
+    tone: "green",
+  },
+  {
+    company: "GR Business Solutions",
+    role: "Systems Consultant | IT Process Analyst",
+    period: "2015 - 2019",
+    location: "Fortaleza, Brazil",
+    challenge:
+      "Translate operational requirements from B2B clients into workable system configurations, documentation and process improvements.",
+    impact:
+      "Supported implementations, user adoption and workflow standardization across client-facing operational environments.",
+    tone: "orange",
+  },
+];
+
+export const bcsKpis: HeroMetric[] = [
+  {
+    value: "60K+",
+    label: "Users",
+    tone: "green",
+  },
+  {
+    value: "R$3M+",
+    label: "Cumulative revenue",
+    tone: "orange",
+  },
+  {
+    value: "12",
+    label: "Professionals led",
+    tone: "blue",
+  },
+  {
+    value: "7+ years",
+    label: "Product evolution",
+    tone: "purple",
   },
 ];
 

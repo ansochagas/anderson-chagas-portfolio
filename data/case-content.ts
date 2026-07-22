@@ -3,6 +3,18 @@ export type CaseQuickFact = {
   value: string;
 };
 
+export type CaseImpactHighlight = {
+  label: string;
+  note?: string;
+  tone: "blue" | "purple" | "orange" | "green";
+  value: string;
+};
+
+export type CaseMethodsGroup = {
+  label: string;
+  items: string[];
+};
+
 export type CaseNarrativeBlock = {
   body: string[];
   eyebrow: string;
@@ -121,6 +133,7 @@ export type DetailedCaseStudy = {
   galleryIntro: string;
   heroDescription: string;
   impact: CaseNarrativeBlock;
+  impactHighlights: CaseImpactHighlight[];
   impactPlaceholder: string;
   myRole: CaseNarrativeBlock;
   nextCaseSlug: string;
@@ -128,6 +141,7 @@ export type DetailedCaseStudy = {
   slug: string;
   solution: CaseNarrativeBlock;
   subtitle: string;
+  technologiesAndMethods: CaseMethodsGroup[];
   title: string;
   visuals: CaseVisual[];
 };
@@ -223,7 +237,58 @@ export const detailedCaseStudies: DetailedCaseStudy[] = [
         "The project demonstrates my ability to lead the full product lifecycle, from opportunity framing to SaaS evolution and technical execution.",
       ],
     },
+    impactHighlights: [
+      {
+        value: "60K+",
+        label: "Users reached",
+        tone: "green",
+      },
+      {
+        value: "R$3M+",
+        label: "Cumulative revenue",
+        tone: "orange",
+      },
+      {
+        value: "Up to 12",
+        label: "Professionals led",
+        tone: "blue",
+      },
+      {
+        value: "7+ years",
+        label: "Product evolution",
+        tone: "purple",
+      },
+    ],
     impactPlaceholder: "Reserved for approved metrics or operational proof points.",
+    technologiesAndMethods: [
+      {
+        label: "Product",
+        items: [
+          "Product strategy",
+          "Roadmap",
+          "Discovery",
+          "Monetization",
+        ],
+      },
+      {
+        label: "Technology",
+        items: [
+          "Node.js",
+          "TypeScript",
+          "React",
+          "PostgreSQL",
+        ],
+      },
+      {
+        label: "Systems",
+        items: [
+          "Sports-data integrations",
+          "Dashboards",
+          "Telegram automation",
+          "APIs",
+        ],
+      },
+    ],
     galleryIntro:
       "Real product screens are used where approved, while remaining evidence stays clearly labeled until additional assets are available.",
     visuals: [
@@ -390,8 +455,59 @@ export const detailedCaseStudies: DetailedCaseStudy[] = [
         "Created a clearer path from business problem to delivery, exposing risks earlier and improving alignment between operations, Product and Technology.",
       ],
     },
+    impactHighlights: [
+      {
+        value: "Healthcare",
+        label: "Enterprise context",
+        tone: "blue",
+      },
+      {
+        value: "AS-IS / TO-BE",
+        label: "Process lens",
+        tone: "purple",
+      },
+      {
+        value: "ServiceNow + SAP",
+        label: "System landscape",
+        tone: "orange",
+      },
+      {
+        value: "Delivery readiness",
+        label: "Outcome focus",
+        tone: "green",
+      },
+    ],
     impactPlaceholder:
       "Reserved for approved evidence such as public-safe outcomes, audit-ready artifacts or delivery quality signals.",
+    technologiesAndMethods: [
+      {
+        label: "Methods",
+        items: [
+          "Discovery workshops",
+          "AS-IS / TO-BE mapping",
+          "Business rules",
+          "Acceptance criteria",
+        ],
+      },
+      {
+        label: "Platforms",
+        items: [
+          "Azure DevOps",
+          "ServiceNow",
+          "SAP",
+          "Legacy integrations",
+        ],
+      },
+      {
+        label: "Automation",
+        items: [
+          "OCR",
+          "RPA",
+          "Backlog refinement",
+          "Technical validation",
+        ],
+      },
+    ],
     galleryIntro:
       "Because internal systems cannot be shown, these visual spaces use portfolio-safe diagrams to represent discovery, process design and alignment work.",
     visuals: [
@@ -605,8 +721,59 @@ export const detailedCaseStudies: DetailedCaseStudy[] = [
         "It also showed my ability to connect product definition, technical architecture, AI capabilities and operational cost analysis.",
       ],
     },
+    impactHighlights: [
+      {
+        value: "Functional prototype",
+        label: "Project stage",
+        tone: "blue",
+      },
+      {
+        value: "Semantic search",
+        label: "Retrieval model",
+        tone: "purple",
+      },
+      {
+        value: "Traceable answers",
+        label: "Decision support",
+        tone: "green",
+      },
+      {
+        value: "Cost-aware scope",
+        label: "Architecture lens",
+        tone: "orange",
+      },
+    ],
     impactPlaceholder:
       "Reserved for approved evidence such as prototype artifacts, architecture proof points or public-safe evaluation notes.",
+    technologiesAndMethods: [
+      {
+        label: "Product",
+        items: [
+          "MVP definition",
+          "User flow design",
+          "Technical trade-offs",
+          "Cost estimation",
+        ],
+      },
+      {
+        label: "Data",
+        items: [
+          "Automated collection",
+          "Normalization",
+          "Enrichment",
+          "Structured storage",
+        ],
+      },
+      {
+        label: "AI",
+        items: [
+          "Semantic retrieval",
+          "LLM-assisted analysis",
+          "Traceability",
+          "Search experience",
+        ],
+      },
+    ],
     galleryIntro:
       "These diagram spaces are intentionally portfolio-safe and explain how the prototype connected public data, semantic retrieval and AI-assisted analysis without relying on fake screenshots.",
     visuals: [

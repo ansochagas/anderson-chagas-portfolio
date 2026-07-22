@@ -12,11 +12,11 @@ type ButtonLinkProps = {
 
 const variantClasses: Record<NonNullable<ButtonLinkProps["variant"]>, string> = {
   primary:
-    "bg-accent text-white shadow-[0_18px_40px_rgba(20,116,111,0.26)] hover:bg-accent-strong",
+    "border border-[#168BD2]/60 bg-[#168BD2] text-white shadow-[0_18px_40px_rgba(22,139,210,0.28)] hover:bg-[#0f79ba]",
   secondary:
-    "border border-white/12 bg-white/[0.05] text-white hover:bg-white/[0.1]",
+    "border border-white/14 bg-[#102734]/84 text-white shadow-[0_14px_32px_rgba(0,0,0,0.16)] hover:bg-[#163646]",
   ghost:
-    "border border-line bg-white/55 text-ink hover:bg-ink hover:text-white",
+    "border border-white/10 bg-[#102734]/84 text-white hover:bg-white/[0.08]",
 };
 
 export function ButtonLink({
@@ -28,9 +28,9 @@ export function ButtonLink({
   variant = "primary",
 }: ButtonLinkProps) {
   const classes = [
-    "inline-flex min-h-11 items-center justify-center rounded-full px-5 py-3 text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45",
+    "inline-flex min-h-11 items-center justify-center rounded-full px-5 py-3 text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#168BD2]/45",
     disabled
-      ? "cursor-not-allowed border border-line bg-white/30 text-ink/48 shadow-none"
+      ? "cursor-not-allowed border border-white/10 bg-white/[0.03] text-white/38 shadow-none"
       : variantClasses[variant],
     className,
   ]
