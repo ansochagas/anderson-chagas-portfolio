@@ -131,16 +131,13 @@ export default function Home() {
 
         <section id="selected-work" className="py-16 sm:py-20">
           <Container className="space-y-10">
-            <div className="grid gap-8 xl:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] xl:items-end">
-              <div className="space-y-4 text-white">
-                <h2 className="max-w-[15ch] text-balance text-[clamp(2.4rem,4vw,4.8rem)] font-semibold leading-[0.92] tracking-[-0.06em]">
-                  Selected work with depth kept in the case pages.
-                </h2>
-              </div>
-
-              <p className="max-w-[42rem] text-base leading-8 text-white/68 sm:text-lg">
-                Three case studies showing strategy, technical depth and
-                implementation thinking.
+            <div className="space-y-4 text-white">
+              <h2 className="max-w-[12ch] text-balance text-[clamp(2.4rem,4vw,4.8rem)] font-semibold leading-[0.92] tracking-[-0.06em]">
+                Selected work
+              </h2>
+              <p className="max-w-[46rem] text-base leading-8 text-white/68 sm:text-lg">
+                Three case studies across SaaS, enterprise transformation and
+                AI-enabled products.
               </p>
             </div>
 

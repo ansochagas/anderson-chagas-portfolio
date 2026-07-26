@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { PageShell } from "@/components/layout/page-shell";
-import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { CaseCard } from "@/components/work/case-card";
 import { publishedPortfolioCases } from "@/data/site-content";
@@ -19,18 +18,14 @@ export default function WorkPage() {
     <PageShell>
       <main id="main-content" className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
         <Container className="space-y-12">
-          <section className="grid gap-8 xl:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] xl:items-end">
-            <div className="space-y-4 text-white">
-              <p className="text-sm font-medium text-[#8bcfff]">Selected work</p>
-              <h1 className="max-w-[14ch] text-balance text-[clamp(2.8rem,4.4vw,5.4rem)] font-semibold leading-[0.9] tracking-[-0.06em]">
-                Three projects with different product and delivery demands.
-              </h1>
-            </div>
-
-            <p className="max-w-[42rem] text-base leading-8 text-white/68 sm:text-lg">
-              This index is intentionally concise. It helps the visitor choose a
-              project quickly, while the detailed reasoning stays inside each
-              full case page.
+          <section className="space-y-4 text-white">
+            <h1 className="max-w-[15ch] text-balance text-[clamp(2.8rem,4.4vw,5.4rem)] font-semibold leading-[0.9] tracking-[-0.06em]">
+              Three product cases. Different contexts, constraints and
+              decisions.
+            </h1>
+            <p className="max-w-[48rem] text-base leading-8 text-white/68 sm:text-lg">
+              A SaaS built from zero, an enterprise service transformation and
+              an AI-enabled intelligence prototype.
             </p>
           </section>
 
@@ -42,15 +37,6 @@ export default function WorkPage() {
                 featured={caseStudy.slug === "bcs-sports-analytics"}
               />
             ))}
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-            <ButtonLink href="/" variant="secondary">
-              Back to Home
-            </ButtonLink>
-            <ButtonLink href="/about" variant="secondary">
-              About
-            </ButtonLink>
           </div>
         </Container>
       </main>

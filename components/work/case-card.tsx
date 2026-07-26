@@ -1,7 +1,9 @@
 import Image from "next/image";
 
 import { ButtonLink } from "@/components/ui/button-link";
+import { EditorialMetricsStrip } from "@/components/ui/editorial-metrics-strip";
 import { CaseVisualBlock } from "@/components/work/case-visual-block";
+import { CaseVisualThumbnail } from "@/components/work/case-visual-thumbnail";
 import {
   getDetailedCaseBySlug,
   type CaseVisual,
@@ -34,7 +36,11 @@ export function CaseCard({ caseStudy, featured = false }: CaseCardProps) {
     ? "xl:grid-cols-[minmax(0,0.84fr)_minmax(420px,1.16fr)]"
     : "xl:grid-cols-[minmax(0,0.88fr)_minmax(320px,1.12fr)]";
   const role = detail?.projectFacts.find((fact) => fact.label === "Role")?.value;
-  const featuredHighlights = detail?.impactHighlights.slice(0, 3) ?? [];
+  const featuredHighlights =
+    detail?.impactHighlights.slice(0, 3).map((item) => ({
+      ...item,
+      label: item.label === "Users reached" ? "Users" : item.label,
+    })) ?? [];
   const imageVisual = isImageVisual(coverVisual) ? coverVisual : undefined;
 
   return (
@@ -70,43 +76,21 @@ export function CaseCard({ caseStudy, featured = false }: CaseCardProps) {
           <dl className="grid gap-4 sm:grid-cols-2">
             {role ? (
               <div className="space-y-2 border-t border-white/10 pt-4">
-                <dt className="text-sm font-medium text-white/42">Role</dt>
-                <dd className="text-base leading-7 text-white/82">{role}</dd>
+                <dt className="text-sm font-medium text-white/52">Role</dt>
+                <dd className="text-base leading-7 text-white/88">{role}</dd>
               </div>
             ) : null}
 
             <div className="space-y-2 border-t border-white/10 pt-4">
-              <dt className="text-sm font-medium text-white/42">Evidence</dt>
-              <dd className="text-base leading-7 text-white/72">
+              <dt className="text-sm font-medium text-white/52">Evidence</dt>
+              <dd className="text-base leading-7 text-white/76">
                 {workEvidenceBySlug[caseStudy.slug]}
               </dd>
             </div>
           </dl>
 
           {featured ? (
-            <div className="grid gap-3 sm:grid-cols-3">
-              {featuredHighlights.map((item) => (
-                <div
-                  key={`${item.label}-${item.value}`}
-                  className="rounded-[1.4rem] border border-white/10 bg-[#081820]/74 px-4 py-4"
-                >
-                  <p
-                    className={`text-[1.65rem] font-semibold tracking-[-0.05em] ${
-                      item.label === "Users reached"
-                        ? "text-[#b8efc4]"
-                        : item.label === "Cumulative revenue"
-                          ? "text-[#ffd48b]"
-                          : "text-white"
-                    }`}
-                  >
-                    {item.value}
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-white/58">
-                    {item.label}
-                  </p>
-                </div>
-              ))}
-            </div>
+            <EditorialMetricsStrip items={featuredHighlights} />
           ) : null}
 
           <div className="pt-2">
@@ -140,7 +124,14 @@ export function CaseCard({ caseStudy, featured = false }: CaseCardProps) {
                 </figcaption>
               </figure>
             ) : (
-              <CaseVisualBlock tone="dark" visual={coverVisual} />
+              <>
+                <div className="md:hidden">
+                  <CaseVisualThumbnail visual={coverVisual} />
+                </div>
+                <div className="hidden md:block">
+                  <CaseVisualBlock tone="dark" visual={coverVisual} />
+                </div>
+              </>
             )}
           </div>
         ) : null}

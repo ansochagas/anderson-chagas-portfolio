@@ -105,13 +105,13 @@ export const homeHero = {
 
 export const heroMetrics: HeroMetric[] = [
   {
-    value: "10+ years",
-    label: "In technology",
+    value: "10+",
+    label: "Years in technology",
     tone: "blue",
   },
   {
-    value: "6+ years",
-    label: "In product and governance",
+    value: "6+",
+    label: "Years in product and governance",
     tone: "purple",
   },
   {
@@ -380,9 +380,10 @@ export const portfolioCases: CaseStudy[] = [
   },
 ];
 
-export const contactPrompt = "Let's build something valuable.";
+export const contactPrompt =
+  "Open to senior product and technical product opportunities.";
 export const contactDescription =
-  "Open to selected freelance projects and international product opportunities.";
+  "Available for selected roles in SaaS, AI-enabled products, automation and digital transformation.";
 
 export const casePageSections = [
   {

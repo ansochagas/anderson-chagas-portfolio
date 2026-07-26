@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { ButtonLink } from "@/components/ui/button-link";
+import { EditorialMetricsStrip } from "@/components/ui/editorial-metrics-strip";
 import {
   getDetailedCaseBySlug,
   type CaseVisual,
@@ -33,7 +34,11 @@ export function SelectedWorkTeasers() {
     (fact) => fact.label === "Role",
   )?.value;
   const featuredVisual = featuredDetail?.visuals.find(isImageVisual);
-  const featuredHighlights = featuredDetail?.impactHighlights.slice(0, 3) ?? [];
+  const featuredHighlights =
+    featuredDetail?.impactHighlights.slice(0, 3).map((item) => ({
+      ...item,
+      label: item.label === "Users reached" ? "Users" : item.label,
+    })) ?? [];
 
   if (!featuredCase || !featuredDetail || !featuredVisual) {
     return null;
@@ -55,43 +60,21 @@ export function SelectedWorkTeasers() {
 
           <dl className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2 border-t border-white/10 pt-4">
-              <dt className="text-sm font-medium text-white/42">Role</dt>
-              <dd className="text-base leading-7 text-white/82 sm:text-lg">
+              <dt className="text-sm font-medium text-white/52">Role</dt>
+              <dd className="text-base leading-7 text-white/88 sm:text-lg">
                 {featuredRole}
               </dd>
             </div>
 
             <div className="space-y-2 border-t border-white/10 pt-4">
-              <dt className="text-sm font-medium text-white/42">Ownership</dt>
-              <dd className="text-base leading-7 text-white/82 sm:text-lg">
+              <dt className="text-sm font-medium text-white/52">Ownership</dt>
+              <dd className="text-base leading-7 text-white/84 sm:text-lg">
                 Product strategy, monetization and live monitoring evolution.
               </dd>
             </div>
           </dl>
 
-          <div className="grid gap-3 sm:grid-cols-3">
-            {featuredHighlights.map((item) => (
-              <div
-                key={`${item.label}-${item.value}`}
-                className="rounded-[1.4rem] border border-white/10 bg-[#081820]/74 px-4 py-4"
-              >
-                <p
-                  className={`text-[1.65rem] font-semibold tracking-[-0.05em] ${
-                    item.label === "Users reached"
-                      ? "text-[#b8efc4]"
-                      : item.label === "Cumulative revenue"
-                        ? "text-[#ffd48b]"
-                        : "text-white"
-                  }`}
-                >
-                  {item.value}
-                </p>
-                <p className="mt-2 text-sm leading-6 text-white/58">
-                  {item.label}
-                </p>
-              </div>
-            ))}
-          </div>
+          <EditorialMetricsStrip items={featuredHighlights} />
 
           <ButtonLink href={`/work/${featuredCase.slug}`} variant="primary">
             Open full case
@@ -135,7 +118,7 @@ export function SelectedWorkTeasers() {
                 <p className="text-sm font-medium text-[#8bcfff]">
                   {caseStudy.category}
                 </p>
-                <h3 className="max-w-[16ch] text-balance text-3xl font-semibold leading-[0.95] tracking-[-0.05em] text-white sm:text-[2.2rem]">
+                <h3 className="max-w-[17ch] text-balance text-[clamp(2rem,6.6vw,2.3rem)] font-semibold leading-[0.98] tracking-[-0.05em] text-white">
                   {caseStudy.title}
                 </h3>
                 <p className="text-base leading-8 text-white/70 sm:text-lg">
@@ -145,13 +128,13 @@ export function SelectedWorkTeasers() {
 
               <dl className="mt-6 grid gap-4">
                 <div className="space-y-2 border-t border-white/10 pt-4">
-                  <dt className="text-sm font-medium text-white/42">Role</dt>
-                  <dd className="text-base leading-7 text-white/82">{role}</dd>
+                  <dt className="text-sm font-medium text-white/52">Role</dt>
+                  <dd className="text-base leading-7 text-white/86">{role}</dd>
                 </div>
 
                 <div className="space-y-2 border-t border-white/10 pt-4">
-                  <dt className="text-sm font-medium text-white/42">Evidence</dt>
-                  <dd className="text-base leading-7 text-white/72">
+                  <dt className="text-sm font-medium text-white/52">Evidence</dt>
+                  <dd className="text-base leading-7 text-white/76">
                     {compactEvidenceBySlug[caseStudy.slug]}
                   </dd>
                 </div>
