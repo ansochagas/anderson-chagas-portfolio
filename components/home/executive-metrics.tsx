@@ -36,27 +36,29 @@ const toneClasses: Record<
 
 export function ExecutiveMetrics({ metrics }: ExecutiveMetricsProps) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-      {metrics.map((metric) => {
+    <div className="grid gap-4 border-y border-white/10 py-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-0 xl:py-8">
+      {metrics.map((metric, index) => {
         const tone = toneClasses[metric.tone];
 
         return (
           <article
             key={`${metric.value}-${metric.label}`}
-            className="relative overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#102734]/84 p-5 backdrop-blur-sm sm:p-6"
+            className={`relative overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#102734]/42 p-5 sm:p-6 xl:rounded-none xl:border-0 xl:bg-transparent xl:px-0 xl:py-0 ${
+              index > 0 ? "xl:pl-6" : ""
+            }`}
           >
             <div
               aria-hidden="true"
-              className={`absolute inset-0 bg-[linear-gradient(160deg,var(--tw-gradient-stops))] ${tone.glow}`}
+              className={`absolute inset-0 xl:hidden bg-[linear-gradient(160deg,var(--tw-gradient-stops))] ${tone.glow}`}
             />
-            <div className="relative flex min-h-[9.8rem] flex-col">
+            <div className="relative flex min-h-[8.75rem] flex-col xl:min-h-[9.2rem]">
               <span className={`h-1.5 w-12 rounded-full ${tone.line} block`} />
               <p
-                className={`mt-5 text-[clamp(2rem,2vw,2.85rem)] font-semibold leading-none tracking-[-0.05em] ${tone.value}`}
+                className={`mt-5 text-[clamp(2rem,2.6vw,3.2rem)] font-semibold leading-none tracking-[-0.06em] ${tone.value} text-pretty`}
               >
                 {metric.value}
               </p>
-              <p className="mt-auto pt-4 text-sm leading-6 text-white/70 sm:text-[0.96rem]">
+              <p className="mt-auto max-w-[18ch] pt-4 text-sm leading-6 text-white/66 sm:text-[0.98rem]">
                 {metric.label}
               </p>
             </div>

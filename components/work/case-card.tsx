@@ -1,7 +1,12 @@
-import Link from "next/link";
+import Image from "next/image";
 
+import { ButtonLink } from "@/components/ui/button-link";
 import { CaseVisualBlock } from "@/components/work/case-visual-block";
-import { getDetailedCaseBySlug } from "@/data/case-content";
+import {
+  getDetailedCaseBySlug,
+  type CaseVisual,
+  type CaseVisualImage,
+} from "@/data/case-content";
 import type { CaseStudy } from "@/data/site-content";
 
 type CaseCardProps = {
@@ -9,104 +14,136 @@ type CaseCardProps = {
   featured?: boolean;
 };
 
-const toneClasses = {
-  blue: "text-[#8bcfff] border-[#168BD2]/24 bg-[#168BD2]/10",
-  purple: "text-[#c6ccff] border-[#6E78C8]/24 bg-[#6E78C8]/10",
-  orange: "text-[#ffd48b] border-[#F4A83D]/24 bg-[#F4A83D]/10",
-  green: "text-[#b8efc4] border-[#62B778]/24 bg-[#62B778]/10",
-} as const;
+const workEvidenceBySlug: Record<string, string> = {
+  "bcs-sports-analytics":
+    "Product ownership across strategy, monetization, live monitoring and SaaS evolution.",
+  "enterprise-service-operations":
+    "AS-IS / TO-BE mapping, business rules, ServiceNow + SAP and delivery readiness.",
+  "ai-intelligence-pipeline":
+    "Functional prototype for collection, enrichment, semantic retrieval and traceable answers.",
+};
+
+function isImageVisual(visual: CaseVisual | undefined): visual is CaseVisualImage {
+  return Boolean(visual && "kind" in visual && visual.kind === "image");
+}
 
 export function CaseCard({ caseStudy, featured = false }: CaseCardProps) {
   const detail = getDetailedCaseBySlug(caseStudy.slug);
   const coverVisual = detail?.visuals[0];
   const layoutClass = featured
-    ? "xl:grid-cols-[minmax(0,1.04fr)_minmax(320px,0.96fr)] xl:items-start"
-    : "";
+    ? "xl:grid-cols-[minmax(0,0.84fr)_minmax(420px,1.16fr)]"
+    : "xl:grid-cols-[minmax(0,0.88fr)_minmax(320px,1.12fr)]";
+  const role = detail?.projectFacts.find((fact) => fact.label === "Role")?.value;
+  const featuredHighlights = detail?.impactHighlights.slice(0, 3) ?? [];
+  const imageVisual = isImageVisual(coverVisual) ? coverVisual : undefined;
 
   return (
     <article
-      className={`rounded-[2.2rem] border border-white/8 bg-[#102734]/86 p-6 text-white backdrop-blur-sm sm:p-7 ${
+      className={`rounded-[2.4rem] border border-white/10 bg-[#102734]/42 p-6 text-white sm:p-8 ${
         featured ? "lg:col-span-2" : ""
       }`.trim()}
     >
-      <div className={`grid gap-8 ${layoutClass}`.trim()}>
+      <div className={`grid gap-8 xl:items-start ${layoutClass}`.trim()}>
         <div className="space-y-5">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="eyebrow text-[#8bcfff]">{caseStudy.category}</span>
-            <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/54">
-              {caseStudy.status === "published" ? "Published" : "Draft"}
+            <span className="text-sm font-medium text-[#8bcfff]">
+              {caseStudy.category}
             </span>
+            {caseStudy.slug === "ai-intelligence-pipeline" ? (
+              <span className="text-sm text-white/48">Functional prototype</span>
+            ) : null}
           </div>
 
-          <h2 className="text-balance text-3xl font-semibold leading-tight tracking-[-0.05em] sm:text-4xl">
+          <h2
+            className={`text-balance font-semibold leading-[0.92] tracking-[-0.05em] text-white ${
+              featured
+                ? "max-w-[14ch] text-[clamp(2.8rem,4vw,4.8rem)]"
+                : "max-w-[16ch] text-[clamp(2.05rem,2.6vw,3.2rem)]"
+            }`}
+          >
             {caseStudy.title}
           </h2>
-          <p className="max-w-3xl text-base leading-8 text-white/72 sm:text-lg">
-            {caseStudy.summary}
+          <p className="max-w-[42rem] text-base leading-8 text-white/70 sm:text-lg">
+            {detail?.heroDescription ?? caseStudy.summary}
           </p>
 
-          <div className="flex flex-wrap gap-2.5">
-            {caseStudy.preview.map((item) => (
-              <span
-                key={item}
-                className="rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-2 text-sm text-white/68"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
+          <dl className="grid gap-4 sm:grid-cols-2">
+            {role ? (
+              <div className="space-y-2 border-t border-white/10 pt-4">
+                <dt className="text-sm font-medium text-white/42">Role</dt>
+                <dd className="text-base leading-7 text-white/82">{role}</dd>
+              </div>
+            ) : null}
 
-          <ul className="grid gap-3 text-sm leading-7 text-white/72 sm:text-base">
-            {caseStudy.focus.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#168BD2]" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+            <div className="space-y-2 border-t border-white/10 pt-4">
+              <dt className="text-sm font-medium text-white/42">Evidence</dt>
+              <dd className="text-base leading-7 text-white/72">
+                {workEvidenceBySlug[caseStudy.slug]}
+              </dd>
+            </div>
+          </dl>
 
-        {detail?.impactHighlights?.length ? (
-          <aside className="rounded-[1.8rem] border border-white/10 bg-[#081820]/70 p-5">
-            <p className="eyebrow text-white/40">Impact At A Glance</p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {detail.impactHighlights.slice(0, 4).map((item) => (
+          {featured ? (
+            <div className="grid gap-3 sm:grid-cols-3">
+              {featuredHighlights.map((item) => (
                 <div
                   key={`${item.label}-${item.value}`}
-                  className={`rounded-[1.25rem] border p-4 ${
-                    toneClasses[item.tone]
-                  }`}
+                  className="rounded-[1.4rem] border border-white/10 bg-[#081820]/74 px-4 py-4"
                 >
-                  <p className="text-xl font-semibold tracking-[-0.04em]">
+                  <p
+                    className={`text-[1.65rem] font-semibold tracking-[-0.05em] ${
+                      item.label === "Users reached"
+                        ? "text-[#b8efc4]"
+                        : item.label === "Cumulative revenue"
+                          ? "text-[#ffd48b]"
+                          : "text-white"
+                    }`}
+                  >
                     {item.value}
                   </p>
-                  <p className="mt-2 text-sm leading-6 text-white/68">
+                  <p className="mt-2 text-sm leading-6 text-white/58">
                     {item.label}
                   </p>
                 </div>
               ))}
             </div>
-          </aside>
-        ) : null}
-      </div>
+          ) : null}
 
-      {coverVisual ? (
-        <div className="mt-8">
-          <CaseVisualBlock tone="dark" visual={coverVisual} />
+          <div className="pt-2">
+            <ButtonLink href={`/work/${caseStudy.slug}`} variant="secondary">
+              {caseStudy.linkLabel ?? "Open case"}
+            </ButtonLink>
+          </div>
         </div>
-      ) : null}
 
-      <div className="mt-8 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-end sm:justify-between">
-        <p className="max-w-2xl text-sm leading-6 text-white/54">
-          {caseStudy.placeholderNote}
-        </p>
-
-        <Link
-          href={`/work/${caseStudy.slug}`}
-          className="inline-flex rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/[0.1]"
-        >
-          {caseStudy.linkLabel ?? "Open case"}
-        </Link>
+        {coverVisual ? (
+          <div className={featured ? "xl:pl-2" : ""}>
+            {imageVisual ? (
+              <figure className="space-y-4">
+                <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#081820]/82 p-3">
+                  <Image
+                    src={imageVisual.src}
+                    alt={imageVisual.alt}
+                    width={imageVisual.width}
+                    height={imageVisual.height}
+                    priority={featured}
+                    sizes={
+                      featured
+                        ? "(min-width: 1280px) 760px, (min-width: 768px) calc(100vw - 4rem), calc(100vw - 2.5rem)"
+                        : "(min-width: 1280px) 520px, (min-width: 768px) calc(100vw - 4rem), calc(100vw - 2.5rem)"
+                    }
+                    className="h-auto w-full rounded-[1.35rem] object-contain"
+                  />
+                </div>
+                <figcaption className="text-sm leading-6 text-white/58 sm:text-base">
+                  {imageVisual.description}
+                </figcaption>
+              </figure>
+            ) : (
+              <CaseVisualBlock tone="dark" visual={coverVisual} />
+            )}
+          </div>
+        ) : null}
       </div>
     </article>
   );
