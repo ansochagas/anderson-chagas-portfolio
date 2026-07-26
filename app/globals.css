@@ -43,6 +43,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -80,8 +81,31 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid rgba(22, 139, 210, 0.45);
+  outline: 2px solid rgba(139, 207, 255, 0.75);
   outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  transform: translateY(-180%);
+  border-radius: 999px;
+  border: 1px solid rgba(139, 207, 255, 0.45);
+  background: rgba(8, 24, 32, 0.96);
+  color: #f4f7f5;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  border-color: rgba(139, 207, 255, 0.8);
 }
 
 h1,
@@ -126,6 +150,10 @@ h6 {
 
 .text-balance {
   text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
 }
 
 @keyframes rise-in {

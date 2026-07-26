@@ -57,7 +57,7 @@ function DefaultDetailedCasePage({
     detail.visuals;
 
   return (
-    <main className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
+    <main id="main-content" className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
       <CasePageHero
         caseStudy={caseStudy}
         detail={detail}
@@ -130,7 +130,7 @@ function BcsDetailedCasePage({
   const brandOverview = findVisual(detail, "brand-overview");
 
   return (
-    <main className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
+    <main id="main-content" className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
       <CasePageHero
         caseStudy={caseStudy}
         detail={detail}

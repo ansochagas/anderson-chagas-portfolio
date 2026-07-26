@@ -63,7 +63,7 @@ export default async function CasePage({ params }: CasePageProps) {
           nextCase={nextCase}
         />
       ) : (
-        <main className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
+        <main id="main-content" className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
           <Container className="grid gap-6 lg:grid-cols-[minmax(320px,0.9fr)_minmax(0,1.1fr)]">
             <aside className="surface-card rounded-[2rem] p-7 sm:p-8">
               <p className="eyebrow text-muted">{caseStudy.category}</p>

@@ -66,8 +66,8 @@ export type SkillBlock = {
 };
 
 export const navigationItems = [
-  { label: "Work", href: "/#selected-work" },
-  { label: "About", href: "/#about" },
+  { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
   { label: "Experience", href: "/#experience" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -123,11 +123,6 @@ export const heroMetrics: HeroMetric[] = [
     value: "R$3M+",
     label: "Cumulative revenue",
     tone: "orange",
-  },
-  {
-    value: "12",
-    label: "Professionals led",
-    tone: "blue",
   },
 ];
 

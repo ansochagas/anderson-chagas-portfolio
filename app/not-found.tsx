@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/container";
 export default function NotFound() {
   return (
     <PageShell>
-      <main className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
+      <main id="main-content" className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
         <Container>
           <section className="surface-card rounded-[2rem] p-7 sm:p-9 lg:p-10">
             <p className="eyebrow text-muted">404</p>

@@ -22,7 +22,7 @@ export const metadata: Metadata = createPageMetadata({
 export default function AboutPage() {
   return (
     <PageShell>
-      <main className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
+      <main id="main-content" className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
         <Container className="space-y-12">
           <section className="grid gap-10 xl:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] xl:items-start">
             <div className="space-y-6 text-white">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Archivo, Inter } from "next/font/google";
 import "./globals.css";
 
 import {
@@ -13,7 +13,7 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const spaceGrotesk = Space_Grotesk({
+const archivo = Archivo({
   variable: "--font-display",
   subsets: ["latin"],
 });
@@ -54,9 +54,14 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      className={`${inter.variable} ${archivo.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <a className="skip-link" href="#main-content">
+          Skip to main content
+        </a>
+        {children}
+      </body>
     </html>
   );
 }
