@@ -4,6 +4,7 @@ import { CaseVisualBlock } from "@/components/work/case-visual-block";
 import type {
   CaseImpactHighlight,
   CaseMethodsGroup,
+  CaseQuickFact,
   CaseVisual,
   DetailedCaseStudy,
 } from "@/data/case-content";
@@ -15,29 +16,47 @@ type DetailedCasePageProps = {
   nextCase?: CaseStudy;
 };
 
+type AccentTone = CaseImpactHighlight["tone"];
+
 const toneClasses: Record<
-  CaseImpactHighlight["tone"],
+  AccentTone,
   {
-    panel: string;
+    line: string;
+    soft: string;
     value: string;
   }
 > = {
   blue: {
-    panel: "border-[#168BD2]/26 bg-[#168BD2]/10",
+    line: "bg-[#168BD2]",
+    soft: "text-[#8bcfff]",
     value: "text-[#8bcfff]",
   },
   purple: {
-    panel: "border-[#6E78C8]/26 bg-[#6E78C8]/10",
+    line: "bg-[#6E78C8]",
+    soft: "text-[#c6ccff]",
     value: "text-[#c6ccff]",
   },
   orange: {
-    panel: "border-[#F4A83D]/26 bg-[#F4A83D]/10",
+    line: "bg-[#F4A83D]",
+    soft: "text-[#ffd48b]",
     value: "text-[#ffd48b]",
   },
   green: {
-    panel: "border-[#62B778]/26 bg-[#62B778]/10",
+    line: "bg-[#62B778]",
+    soft: "text-[#b8efc4]",
     value: "text-[#b8efc4]",
   },
+};
+
+const heroBackgroundByAccent: Record<AccentTone, string> = {
+  blue:
+    "bg-[radial-gradient(circle_at_18%_14%,rgba(22,139,210,0.22),transparent_28%),radial-gradient(circle_at_82%_16%,rgba(22,139,210,0.12),transparent_24%),radial-gradient(circle_at_70%_76%,rgba(98,183,120,0.08),transparent_24%),linear-gradient(180deg,#081820_0%,#081820_76%,rgba(8,24,32,0.98)_100%)]",
+  purple:
+    "bg-[radial-gradient(circle_at_18%_14%,rgba(22,139,210,0.16),transparent_28%),radial-gradient(circle_at_84%_14%,rgba(110,120,200,0.2),transparent_22%),radial-gradient(circle_at_68%_76%,rgba(244,168,61,0.08),transparent_24%),linear-gradient(180deg,#081820_0%,#081820_76%,rgba(8,24,32,0.98)_100%)]",
+  orange:
+    "bg-[radial-gradient(circle_at_18%_14%,rgba(22,139,210,0.16),transparent_28%),radial-gradient(circle_at_82%_16%,rgba(244,168,61,0.2),transparent_22%),radial-gradient(circle_at_70%_76%,rgba(98,183,120,0.08),transparent_24%),linear-gradient(180deg,#081820_0%,#081820_76%,rgba(8,24,32,0.98)_100%)]",
+  green:
+    "bg-[radial-gradient(circle_at_18%_14%,rgba(22,139,210,0.18),transparent_28%),radial-gradient(circle_at_82%_16%,rgba(98,183,120,0.16),transparent_24%),radial-gradient(circle_at_70%_76%,rgba(110,120,200,0.1),transparent_24%),linear-gradient(180deg,#081820_0%,#081820_76%,rgba(8,24,32,0.98)_100%)]",
 };
 
 export function DetailedCasePage(props: DetailedCasePageProps) {
@@ -55,18 +74,20 @@ function DefaultDetailedCasePage({
 }: DetailedCasePageProps) {
   const [heroVisual, challengeVisual, solutionVisual, ...galleryVisuals] =
     detail.visuals;
+  const accent = detail.slug === "ai-intelligence-pipeline" ? "purple" : "blue";
 
   return (
     <main id="main-content" className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
       <CasePageHero
+        accent={accent}
         caseStudy={caseStudy}
         detail={detail}
         secondaryHref={heroVisual ? "#case-evidence" : "/work"}
-        secondaryLabel={heroVisual ? "View Case Evidence" : "Back to Selected Work"}
+        secondaryLabel={heroVisual ? "View case evidence" : "Back to selected work"}
       />
 
       <Container className="space-y-16 sm:space-y-20">
-        <ProjectFactsGrid facts={detail.projectFacts} />
+        <ProjectFactsStrip facts={detail.projectFacts} />
 
         {heroVisual ? (
           <section id="case-evidence">
@@ -74,44 +95,88 @@ function DefaultDetailedCasePage({
           </section>
         ) : null}
 
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] xl:items-start">
-          <EditorialTextBlock block={detail.challenge} />
+        <section className="grid gap-8 border-t border-white/10 pt-8 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] xl:gap-12 xl:pt-10">
+          <NarrativePanel
+            accent={accent}
+            body={detail.challenge.body}
+            label={detail.challenge.eyebrow}
+            title={detail.challenge.title}
+          />
+
           {challengeVisual ? (
             <CaseVisualBlock tone="dark" visual={challengeVisual} />
           ) : (
-            <CompactNarrativeCard
+            <SupportPanel
+              accent={accent}
               body={[detail.heroDescription]}
-              eyebrow="Case Summary"
+              label="Case summary"
               title="Context for the work"
-              tone="blue"
             />
           )}
         </section>
 
-        <WhatIDidSection detail={detail} />
+        <section className="grid gap-8 border-t border-white/10 pt-8 xl:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] xl:gap-12 xl:pt-10">
+          <NarrativePanel
+            accent={accent}
+            body={[
+              "The role combined discovery, documentation, orchestration and product decision-making.",
+            ]}
+            label={detail.myRole.eyebrow}
+            title={detail.myRole.title}
+          />
 
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)] xl:items-start">
-          <SolutionSection detail={detail} />
+          <EditorialList items={detail.myRole.points ?? []} />
+        </section>
+
+        <section className="grid gap-8 border-t border-white/10 pt-8 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] xl:gap-12 xl:pt-10">
+          <div className="space-y-8">
+            <NarrativePanel
+              accent={accent}
+              body={detail.solution.body}
+              label={detail.solution.eyebrow}
+              title={detail.solution.title}
+            />
+            <EditorialList columns items={detail.solution.points ?? []} />
+          </div>
+
           {solutionVisual ? (
             <CaseVisualBlock tone="dark" visual={solutionVisual} />
           ) : (
-            <ApproachSection detail={detail} />
+            <SupportPanel
+              accent={accent}
+              body={[
+                "The solution combined process clarity, validated requirements and shared understanding before development.",
+              ]}
+              items={detail.solution.points}
+              label="Solution structure"
+              title="How the solution was organized"
+            />
           )}
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-2 xl:items-start">
-          <ApproachSection detail={detail} />
-          <TechnologiesSection groups={detail.technologiesAndMethods} />
+        <section className="grid gap-8 border-t border-white/10 pt-8 xl:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] xl:gap-12 xl:pt-10">
+          <NarrativePanel
+            accent={accent}
+            body={detail.approach.body}
+            label={detail.approach.eyebrow}
+            title={detail.approach.title}
+          />
+
+          <div className="space-y-10">
+            <StepFlow accent={accent} steps={detail.approachFlow} />
+            <MethodsRows groups={detail.technologiesAndMethods} />
+          </div>
         </section>
 
         {galleryVisuals.length ? (
-          <GallerySection
+          <EvidenceGallery
             description={detail.galleryIntro}
+            title="Additional evidence"
             visuals={galleryVisuals}
           />
         ) : null}
 
-        <ImpactSection detail={detail} />
+        <ImpactSection accent={accent} detail={detail} />
         <ContactSection detail={detail} />
         <NextCaseSection nextCase={nextCase} />
       </Container>
@@ -132,14 +197,15 @@ function BcsDetailedCasePage({
   return (
     <main id="main-content" className="flex-1 pb-24 pt-12 sm:pb-28 sm:pt-20">
       <CasePageHero
+        accent="green"
         caseStudy={caseStudy}
         detail={detail}
         secondaryHref="#platform-overview"
-        secondaryLabel="View Product Screens"
+        secondaryLabel="View product screens"
       />
 
       <Container className="space-y-16 sm:space-y-20">
-        <ProjectFactsGrid facts={detail.projectFacts} />
+        <ProjectFactsStrip facts={detail.projectFacts} />
 
         {platformOverview ? (
           <section id="platform-overview">
@@ -147,25 +213,42 @@ function BcsDetailedCasePage({
           </section>
         ) : null}
 
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] xl:items-start">
-          <EditorialTextBlock block={detail.challenge} />
-          <CompactNarrativeCard
+        <section className="grid gap-8 border-t border-white/10 pt-8 xl:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] xl:gap-12 xl:pt-10">
+          <NarrativePanel
+            accent="green"
+            body={detail.challenge.body}
+            label={detail.challenge.eyebrow}
+            title={detail.challenge.title}
+          />
+
+          <SupportPanel
+            accent="green"
             body={[
-              "Data and analysis, live monitoring, automated alerts and actionable information were designed to work as a single product loop.",
+              "Data, analysis, monitoring and automated distribution were shaped to reduce research friction and speed up decision-making during live matches.",
             ]}
-            eyebrow="Data to Action"
-            tags={[
-              "Sports data",
+            items={[
+              "Sports data and APIs",
               "Analytical tools",
               "Real-time monitoring",
               "Automated alerts",
             ]}
-            title="The operating logic behind the product"
-            tone="green"
+            label="Product loop"
+            title="Data, monitoring and action in one workflow"
           />
         </section>
 
-        <WhatIDidSection detail={detail} />
+        <section className="grid gap-8 border-t border-white/10 pt-8 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] xl:gap-12 xl:pt-10">
+          <NarrativePanel
+            accent="green"
+            body={[
+              "The role covered strategy, technical direction and product evolution across a long-running SaaS operation.",
+            ]}
+            label={detail.myRole.eyebrow}
+            title={detail.myRole.title}
+          />
+
+          <EditorialList columns items={detail.myRole.points ?? []} />
+        </section>
 
         {liveMonitoring ? (
           <section id="live-match-monitoring">
@@ -173,34 +256,50 @@ function BcsDetailedCasePage({
           </section>
         ) : null}
 
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] xl:items-start">
-          <SolutionSection detail={detail} />
+        <section className="grid gap-8 border-t border-white/10 pt-8 xl:grid-cols-[minmax(0,0.98fr)_minmax(320px,0.72fr)] xl:gap-12 xl:pt-10">
+          <div className="space-y-8">
+            <NarrativePanel
+              accent="green"
+              body={detail.solution.body}
+              label={detail.solution.eyebrow}
+              title={detail.solution.title}
+            />
+            <EditorialList columns items={detail.solution.points ?? []} />
+          </div>
 
           {telegramAlert ? (
-            <div id="telegram-alert" className="xl:pt-12">
+            <div id="telegram-alert" className="xl:pt-2">
               <CaseVisualBlock
-                className="w-full max-w-[420px] xl:ml-auto"
+                className="w-full max-w-[360px] xl:ml-auto"
                 tone="dark"
                 visual={telegramAlert}
               />
             </div>
           ) : (
-            <CompactNarrativeCard
+            <SupportPanel
+              accent="blue"
               body={[
-                "Automated alerts distributed relevant match signals quickly, without asking users to monitor every live event manually.",
+                "Automated alerts distributed relevant match signals without asking users to monitor every live event manually.",
               ]}
-              eyebrow="Automation"
-              title="Telegram Alert"
-              tone="blue"
+              label="Automation"
+              title="Telegram alert"
             />
           )}
         </section>
 
-        <ApproachSection
-          detail={detail}
-          methods={detail.technologiesAndMethods}
-          showMethods
-        />
+        <section className="grid gap-8 border-t border-white/10 pt-8 xl:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] xl:gap-12 xl:pt-10">
+          <NarrativePanel
+            accent="green"
+            body={detail.approach.body}
+            label={detail.approach.eyebrow}
+            title={detail.approach.title}
+          />
+
+          <div className="space-y-10">
+            <StepFlow accent="green" steps={detail.approachFlow} />
+            <MethodsRows groups={detail.technologiesAndMethods} />
+          </div>
+        </section>
 
         {brandOverview ? (
           <section id="brand-overview">
@@ -208,7 +307,7 @@ function BcsDetailedCasePage({
           </section>
         ) : null}
 
-        <ImpactSection detail={detail} />
+        <ImpactSection accent="green" detail={detail} />
         <ContactSection detail={detail} />
         <NextCaseSection nextCase={nextCase} />
       </Container>
@@ -217,6 +316,7 @@ function BcsDetailedCasePage({
 }
 
 type CasePageHeroProps = {
+  accent: AccentTone;
   caseStudy: CaseStudy;
   detail: DetailedCaseStudy;
   secondaryHref: string;
@@ -224,56 +324,46 @@ type CasePageHeroProps = {
 };
 
 function CasePageHero({
+  accent,
   caseStudy,
   detail,
   secondaryHref,
   secondaryLabel,
 }: CasePageHeroProps) {
+  const accentTone = toneClasses[accent];
+
   return (
     <section className="relative overflow-hidden pb-16 sm:pb-20">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_14%,rgba(22,139,210,0.18),transparent_28%),radial-gradient(circle_at_84%_12%,rgba(110,120,200,0.18),transparent_22%),radial-gradient(circle_at_72%_72%,rgba(98,183,120,0.12),transparent_24%),linear-gradient(180deg,#081820_0%,#081820_72%,rgba(8,24,32,0.98)_100%)]" />
+      <div
+        className={`absolute inset-0 -z-10 ${heroBackgroundByAccent[accent]}`}
+      />
 
       <Container className="space-y-10">
         <div className="fade-up">
           <ButtonLink href="/work" variant="secondary">
-            Back to Selected Work
+            Back to selected work
           </ButtonLink>
         </div>
 
-        <div className="grid gap-8 xl:grid-cols-[minmax(0,1.08fr)_minmax(340px,0.92fr)] xl:items-start">
-          <div className="space-y-8 text-white">
+        <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(320px,0.8fr)] xl:items-start">
+          <div className="space-y-7 text-white">
             <div className="space-y-4">
-              <div className="flex flex-wrap items-center gap-3">
-                <p className="eyebrow text-[#8bcfff]">
-                  Selected Work / {caseStudy.category}
-                </p>
-                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/54">
-                  {caseStudy.status === "published" ? "Published" : "Draft"}
-                </span>
-              </div>
+              <p className={`text-sm font-medium ${accentTone.soft}`}>
+                Work / {caseStudy.category}
+              </p>
 
-              <h1 className="max-w-5xl text-balance text-5xl font-semibold leading-[0.95] tracking-[-0.05em] sm:text-6xl lg:text-7xl">
+              <h1 className="max-w-[13ch] text-balance text-[clamp(2.7rem,5.1vw,5.6rem)] font-semibold leading-[0.92] tracking-[-0.06em] text-white xl:max-w-[11ch]">
                 {detail.title}
               </h1>
-              <p className="max-w-3xl text-lg leading-8 text-white/72 sm:text-2xl sm:leading-9">
+
+              <p className="max-w-[42rem] text-lg leading-8 text-white/74 sm:text-[1.45rem] sm:leading-9">
                 {detail.subtitle}
               </p>
             </div>
 
-            <p className="max-w-2xl text-base leading-8 text-white/66 sm:text-lg">
+            <p className="max-w-[44rem] text-base leading-8 text-white/68 sm:text-lg">
               {detail.heroDescription}
             </p>
-
-            <div className="flex flex-wrap gap-2.5">
-              {caseStudy.preview.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-2 text-sm text-white/66"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
 
             <div className="flex flex-wrap gap-3">
               <ButtonLink href="/#contact" variant="primary">
@@ -285,12 +375,32 @@ function CasePageHero({
             </div>
           </div>
 
-          <aside className="space-y-4">
-            <ImpactHighlightsGrid items={detail.impactHighlights} />
+          <aside className="space-y-8 text-white">
+            <div className="border-t border-white/10 pt-4">
+              <p className="text-sm font-medium text-white/54">
+                Impact at a glance
+              </p>
+              <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-6">
+                {detail.impactHighlights.map((item) => (
+                  <div key={`${item.label}-${item.value}`} className="space-y-2">
+                    <span
+                      aria-hidden="true"
+                      className={`block h-1.5 w-10 rounded-full ${toneClasses[item.tone].line}`}
+                    />
+                    <p
+                      className={`tabular-nums text-[1.6rem] font-semibold leading-none tracking-[-0.05em] ${toneClasses[item.tone].value}`}
+                    >
+                      {item.value}
+                    </p>
+                    <p className="text-sm leading-6 text-white/66">{item.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-            <div className="rounded-[1.8rem] border border-white/10 bg-[#102734]/76 p-5">
-              <p className="eyebrow text-white/42">Case Scope</p>
-              <p className="mt-4 text-base leading-7 text-white/72">
+            <div className="border-t border-white/10 pt-4">
+              <p className="text-sm font-medium text-white/54">Case context</p>
+              <p className="mt-4 max-w-[34rem] text-base leading-8 text-white/68">
                 {caseStudy.summary}
               </p>
             </div>
@@ -301,74 +411,54 @@ function CasePageHero({
   );
 }
 
-type ProjectFactsGridProps = {
-  facts: DetailedCaseStudy["projectFacts"];
-};
+function ProjectFactsStrip({ facts }: { facts: CaseQuickFact[] }) {
+  const desktopColumns =
+    facts.length >= 4 ? "xl:grid-cols-4" : facts.length === 3 ? "xl:grid-cols-3" : "xl:grid-cols-2";
 
-function ProjectFactsGrid({ facts }: ProjectFactsGridProps) {
   return (
-    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      {facts.map((fact, index) => (
-        <article
-          key={fact.label}
-          className={`rounded-[1.55rem] border border-white/10 bg-[#102734]/76 p-5 text-white ${
-            index === 0 ? "fade-up" : "fade-up-delay"
-          }`}
-        >
-          <p className="eyebrow text-white/42">{fact.label}</p>
-          <p className="mt-4 text-lg font-medium leading-7 text-white/84">
-            {fact.value}
-          </p>
-        </article>
-      ))}
-    </section>
-  );
-}
-
-type ImpactHighlightsGridProps = {
-  items: CaseImpactHighlight[];
-};
-
-function ImpactHighlightsGrid({ items }: ImpactHighlightsGridProps) {
-  return (
-    <div className="rounded-[1.8rem] border border-white/10 bg-[#102734]/76 p-5">
-      <p className="eyebrow text-white/42">Impact At A Glance</p>
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        {items.map((item) => {
-          const tone = toneClasses[item.tone];
+    <section className="border-y border-white/10">
+      <div className={`grid sm:grid-cols-2 ${desktopColumns}`.trim()}>
+        {facts.map((fact, index) => {
+          const mobileTopBorder = index >= 1 ? "border-t border-white/10" : "";
+          const desktopLeftBorder =
+            index > 0 ? "xl:border-l xl:border-white/10" : "";
 
           return (
             <article
-              key={`${item.label}-${item.value}`}
-              className={`rounded-[1.2rem] border p-4 ${tone.panel}`}
+              key={fact.label}
+              className={`px-0 py-5 text-white sm:px-5 xl:px-6 ${mobileTopBorder} sm:border-t-0 ${desktopLeftBorder}`.trim()}
             >
-              <p className={`text-2xl font-semibold tracking-[-0.04em] ${tone.value}`}>
-                {item.value}
-              </p>
-              <p className="mt-2 text-sm leading-6 text-white/68">
-                {item.label}
+              <p className="text-sm font-medium text-white/50">{fact.label}</p>
+              <p className="mt-3 max-w-[22ch] text-base leading-7 text-white/82 sm:text-lg">
+                {fact.value}
               </p>
             </article>
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
 
-type EditorialTextBlockProps = {
-  block: DetailedCaseStudy["challenge"] | DetailedCaseStudy["approach"];
+type NarrativePanelProps = {
+  accent: AccentTone;
+  body: string[];
+  label: string;
+  title: string;
 };
 
-function EditorialTextBlock({ block }: EditorialTextBlockProps) {
+function NarrativePanel({ accent, body, label, title }: NarrativePanelProps) {
   return (
-    <article className="rounded-[2rem] border border-white/8 bg-[#102734]/80 p-6 text-white sm:p-8">
-      <p className="eyebrow text-white/42">{block.eyebrow}</p>
-      <h2 className="mt-4 text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-        {block.title}
-      </h2>
-      <div className="mt-5 space-y-4 text-base leading-8 text-white/72 sm:text-lg">
-        {block.body.map((paragraph) => (
+    <article className="space-y-5 text-white">
+      <div className="space-y-4">
+        <p className={`text-sm font-medium ${toneClasses[accent].soft}`}>{label}</p>
+        <h2 className="max-w-[14ch] text-balance text-[clamp(2.5rem,4vw,4.4rem)] font-semibold leading-[0.94] tracking-[-0.05em] text-white">
+          {title}
+        </h2>
+      </div>
+
+      <div className="max-w-[44rem] space-y-4 text-base leading-8 text-white/72 sm:text-lg">
+        {body.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
@@ -376,280 +466,127 @@ function EditorialTextBlock({ block }: EditorialTextBlockProps) {
   );
 }
 
-type CompactNarrativeCardProps = {
+type SupportPanelProps = {
+  accent: AccentTone;
   body: string[];
-  eyebrow: string;
-  tags?: string[];
+  items?: string[];
+  label: string;
   title: string;
-  tone: CaseImpactHighlight["tone"];
 };
 
-function CompactNarrativeCard({
+function SupportPanel({
+  accent,
   body,
-  eyebrow,
-  tags,
+  items,
+  label,
   title,
-  tone,
-}: CompactNarrativeCardProps) {
-  const accent = toneClasses[tone];
-
+}: SupportPanelProps) {
   return (
-    <article className="rounded-[2rem] border border-white/8 bg-[#081820]/72 p-6 text-white sm:p-8">
-      <div className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${accent.panel} ${accent.value}`}>
-        {eyebrow}
-      </div>
-      <h2 className="mt-5 text-balance text-3xl font-semibold leading-tight tracking-[-0.04em] sm:text-4xl">
+    <aside className="space-y-5 border-t border-white/10 pt-4 text-white">
+      <p className={`text-sm font-medium ${toneClasses[accent].soft}`}>{label}</p>
+      <h3 className="max-w-[18ch] text-balance text-2xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-[2rem]">
         {title}
-      </h2>
-      <div className="mt-5 space-y-4 text-base leading-8 text-white/72 sm:text-lg">
+      </h3>
+
+      <div className="space-y-4 text-base leading-8 text-white/72 sm:text-lg">
         {body.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
 
-      {tags?.length ? (
-        <div className="mt-6 flex flex-wrap gap-2.5">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-2 text-sm text-white/66"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      ) : null}
-    </article>
+      {items?.length ? <EditorialList items={items} /> : null}
+    </aside>
   );
 }
 
-type DetailOnlyProps = {
-  detail: DetailedCaseStudy;
-};
-
-function WhatIDidSection({ detail }: DetailOnlyProps) {
+function EditorialList({
+  items,
+  columns = false,
+}: {
+  items: string[];
+  columns?: boolean;
+}) {
   return (
-    <section className="relative overflow-hidden rounded-[2rem] border border-white/8 bg-[#102734]/84 p-6 text-white sm:p-8 lg:p-10">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(22,139,210,0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.04),transparent)]" />
-
-      <div className="relative grid gap-8 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:items-start">
-        <div className="space-y-4">
-          <p className="eyebrow text-white/42">{detail.myRole.eyebrow}</p>
-          <h2 className="text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-            {detail.myRole.title}
-          </h2>
-        </div>
-
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {detail.myRole.points?.map((point) => (
-            <li
-              key={point}
-              className="rounded-[1.2rem] border border-white/8 bg-white/[0.04] px-4 py-4 text-sm leading-7 text-white/76 sm:text-base"
-            >
-              {point}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-function SolutionSection({ detail }: DetailOnlyProps) {
-  return (
-    <article className="rounded-[2rem] border border-white/8 bg-[#102734]/80 p-6 text-white sm:p-8">
-      <p className="eyebrow text-white/42">{detail.solution.eyebrow}</p>
-      <h2 className="mt-4 text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-        {detail.solution.title}
-      </h2>
-
-      <div className="mt-5 space-y-4 text-base leading-8 text-white/72 sm:text-lg">
-        {detail.solution.body.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
-      </div>
-
-      <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-        {detail.solution.points?.map((point, index) => (
-          <li
-            key={point}
-            className={`rounded-[1.2rem] border px-4 py-4 text-sm leading-7 sm:text-base ${
-              index % 3 === 0
-                ? "border-[#168BD2]/24 bg-[#168BD2]/10 text-white/84"
-                : "border-white/10 bg-[#081820]/72 text-white/72"
-            }`}
-          >
-            {point}
-          </li>
-        ))}
-      </ul>
-    </article>
-  );
-}
-
-type ApproachSectionProps = {
-  detail: DetailedCaseStudy;
-  methods?: CaseMethodsGroup[];
-  showMethods?: boolean;
-};
-
-function ApproachSection({
-  detail,
-  methods = [],
-  showMethods = false,
-}: ApproachSectionProps) {
-  return (
-    <section className="rounded-[2rem] border border-white/8 bg-[#081820]/72 p-6 text-white sm:p-8">
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-start">
-        <div className="space-y-4">
-          <p className="eyebrow text-white/42">{detail.approach.eyebrow}</p>
-          <h2 className="text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-            {detail.approach.title}
-          </h2>
-          <div className="space-y-4 text-base leading-8 text-white/72 sm:text-lg">
-            {detail.approach.body.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          <ApproachFlow steps={detail.approachFlow} />
-
-          {detail.approachTags?.length ? (
-            <div className="flex flex-wrap gap-3 text-sm text-white/62">
-              {detail.approachTags.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          ) : null}
-
-          {showMethods ? <MethodsGrid groups={methods} /> : null}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-type TechnologiesSectionProps = {
-  groups: CaseMethodsGroup[];
-};
-
-function TechnologiesSection({ groups }: TechnologiesSectionProps) {
-  return (
-    <section className="rounded-[2rem] border border-white/8 bg-[#102734]/80 p-6 text-white sm:p-8">
-      <p className="eyebrow text-white/42">Technologies And Methods</p>
-      <h2 className="mt-4 text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-        Technologies and methods
-      </h2>
-      <p className="mt-5 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">
-        Product framing, technical choices and delivery methods were combined
-        according to the context of the case.
-      </p>
-
-      <div className="mt-6">
-        <MethodsGrid groups={groups} />
-      </div>
-    </section>
-  );
-}
-
-type MethodsGridProps = {
-  groups: CaseMethodsGroup[];
-};
-
-function MethodsGrid({ groups }: MethodsGridProps) {
-  return (
-    <div className="grid gap-4">
-      {groups.map((group) => (
-        <div key={group.label} className="rounded-[1.2rem] bg-white/[0.04] p-4">
-          <p className="eyebrow text-white/40">{group.label}</p>
-          <div className="mt-3 flex flex-wrap gap-2.5">
-            {group.items.map((item) => (
-              <span
-                key={item}
-                className="rounded-full border border-white/10 px-3 py-1.5 text-sm text-white/70"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
+    <ul className={`grid gap-x-6 ${columns ? "sm:grid-cols-2" : ""}`.trim()}>
+      {items.map((item) => (
+        <li
+          key={item}
+          className="border-t border-white/10 py-4 text-base leading-7 text-white/78 sm:text-lg"
+        >
+          {item}
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
-function ImpactSection({ detail }: DetailOnlyProps) {
+function StepFlow({
+  accent,
+  steps,
+}: {
+  accent: AccentTone;
+  steps: string[];
+}) {
   return (
-    <section className="grid gap-6 xl:grid-cols-[minmax(0,0.92fr)_minmax(340px,1.08fr)] xl:items-end">
-      <article className="rounded-[2rem] border border-white/8 bg-[#102734]/80 p-6 text-white sm:p-8">
-        <p className="eyebrow text-white/42">{detail.impact.eyebrow}</p>
-        <h2 className="mt-4 text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-          {detail.impact.title}
-        </h2>
-        <div className="mt-5 space-y-4 text-base leading-8 text-white/72 sm:text-lg">
-          {detail.impact.body.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
-      </article>
-
-      <aside className="rounded-[2rem] border border-white/8 bg-[#081820]/72 p-6 text-white sm:p-8">
-        <p className="eyebrow text-white/42">Evidence Note</p>
-        <h3 className="mt-4 text-2xl font-semibold leading-tight tracking-[-0.04em] sm:text-3xl">
-          No unverified metrics included.
-        </h3>
-        <p className="mt-4 text-base leading-8 text-white/68">
-          {detail.impactPlaceholder}
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/60">
-          {[
-            "Approved metrics only",
-            "Public-safe evidence",
-            "No invented outcomes",
-          ].map((item) => (
-            <span
-              key={item}
-              className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-      </aside>
+    <section className="space-y-4 text-white">
+      <p className={`text-sm font-medium ${toneClasses[accent].soft}`}>Flow</p>
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        {steps.map((step, index) => (
+          <div key={step} className="border-t border-white/10 pt-4">
+            <p className="tabular-nums text-xs font-medium text-white/42">
+              {String(index + 1).padStart(2, "0")}
+            </p>
+            <p className="mt-3 text-base leading-7 text-white/82">{step}</p>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
 
-type GallerySectionProps = {
-  description: string;
-  visuals: CaseVisual[];
-};
-
-function GallerySection({ description, visuals }: GallerySectionProps) {
+function MethodsRows({ groups }: { groups: CaseMethodsGroup[] }) {
   return (
-    <section className="space-y-6">
-      <div className="space-y-3 text-white">
-        <p className="eyebrow text-[#8bcfff]">Additional Evidence</p>
-        <h2 className="text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-          Additional visual evidence for the case.
+    <section className="space-y-4 text-white">
+      <p className="text-sm font-medium text-white/54">Technologies and methods</p>
+      <div className="border-t border-white/10">
+        {groups.map((group) => (
+          <div
+            key={group.label}
+            className="grid gap-3 border-b border-white/10 py-4 lg:grid-cols-[minmax(150px,0.3fr)_minmax(0,1fr)]"
+          >
+            <p className="text-sm font-medium text-white/48">{group.label}</p>
+            <p className="text-base leading-7 text-white/74 sm:text-lg">
+              {group.items.join(" / ")}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function EvidenceGallery({
+  description,
+  title,
+  visuals,
+}: {
+  description: string;
+  title: string;
+  visuals: CaseVisual[];
+}) {
+  return (
+    <section className="space-y-6 border-t border-white/10 pt-8 sm:pt-10">
+      <div className="space-y-4 text-white">
+        <p className="text-sm font-medium text-white/54">Additional evidence</p>
+        <h2 className="max-w-[14ch] text-balance text-[clamp(2.4rem,3.8vw,4.2rem)] font-semibold leading-[0.95] tracking-[-0.05em] text-white">
+          {title}
         </h2>
-        <p className="max-w-3xl text-base leading-8 text-white/68 sm:text-lg">
+        <p className="max-w-[46rem] text-base leading-8 text-white/68 sm:text-lg">
           {description}
         </p>
       </div>
 
-      <div
-        className={
-          visuals.length > 1 ? "grid gap-6 xl:grid-cols-2" : "max-w-5xl"
-        }
-      >
+      <div className={visuals.length > 1 ? "grid gap-6 xl:grid-cols-2" : ""}>
         {visuals.map((visual) => (
           <CaseVisualBlock key={visual.id} tone="dark" visual={visual} />
         ))}
@@ -658,65 +595,84 @@ function GallerySection({ description, visuals }: GallerySectionProps) {
   );
 }
 
-function ContactSection({ detail }: DetailOnlyProps) {
+function ImpactSection({
+  accent,
+  detail,
+}: {
+  accent: AccentTone;
+  detail: DetailedCaseStudy;
+}) {
   return (
-    <section className="relative overflow-hidden rounded-[2rem] border border-white/8 bg-[#102734]/86 p-6 text-white sm:p-8 lg:p-10">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(22,139,210,0.18),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.04),transparent)]" />
+    <section className="grid gap-8 border-t border-white/10 pt-8 xl:grid-cols-[minmax(0,0.88fr)_minmax(320px,0.82fr)] xl:gap-12 xl:pt-10">
+      <NarrativePanel
+        accent={accent}
+        body={detail.impact.body}
+        label={detail.impact.eyebrow}
+        title={detail.impact.title}
+      />
 
-      <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.82fr)] lg:items-end">
-        <div>
-          <p className="eyebrow text-white/42">Contact</p>
-          <h2 className="mt-4 text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-            {detail.contactCta.title}
-          </h2>
-          <p className="mt-5 max-w-2xl text-base leading-8 text-white/68 sm:text-lg">
-            {detail.contactCta.description}
-          </p>
-        </div>
+      <aside className="space-y-5 border-t border-white/10 pt-4 text-white">
+        <p className="text-sm font-medium text-white/54">Evidence note</p>
+        <h3 className="max-w-[16ch] text-balance text-2xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-[2rem]">
+          No unverified metrics included.
+        </h3>
+        <p className="max-w-[34rem] text-base leading-8 text-white/68 sm:text-lg">
+          {detail.impactPlaceholder}
+        </p>
+      </aside>
+    </section>
+  );
+}
 
-        <div className="flex flex-wrap gap-3 lg:justify-end">
-          <ButtonLink href="/#contact" variant="primary">
-            {detail.contactCta.primaryLabel}
-          </ButtonLink>
-          <ButtonLink href="/work" variant="secondary">
-            {detail.contactCta.secondaryLabel}
-          </ButtonLink>
-        </div>
+function ContactSection({ detail }: { detail: DetailedCaseStudy }) {
+  return (
+    <section className="grid gap-8 border-t border-white/10 pt-8 text-white xl:grid-cols-[minmax(0,0.92fr)_minmax(320px,1.08fr)] xl:items-end xl:pt-10">
+      <div className="space-y-5">
+        <p className="text-sm font-medium text-white/54">Contact</p>
+        <h2 className="max-w-[18ch] text-balance text-[clamp(2.2rem,4vw,4.4rem)] font-semibold leading-[0.95] tracking-[-0.05em] text-white xl:max-w-[15ch]">
+          {detail.contactCta.title}
+        </h2>
+        <p className="max-w-[44rem] text-base leading-8 text-white/68 sm:text-lg">
+          {detail.contactCta.description}
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-3 xl:justify-end">
+        <ButtonLink href="/#contact" variant="primary">
+          {detail.contactCta.primaryLabel}
+        </ButtonLink>
+        <ButtonLink href="/work" variant="secondary">
+          {detail.contactCta.secondaryLabel}
+        </ButtonLink>
       </div>
     </section>
   );
 }
 
-type NextCaseSectionProps = {
-  nextCase?: CaseStudy;
-};
-
-function NextCaseSection({ nextCase }: NextCaseSectionProps) {
+function NextCaseSection({ nextCase }: { nextCase?: CaseStudy }) {
   if (!nextCase) {
     return null;
   }
 
   return (
-    <section className="rounded-[2rem] border border-white/8 bg-[#081820]/72 p-6 text-white sm:p-8">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <div className="max-w-3xl">
-          <p className="eyebrow text-white/42">Next Case</p>
-          <h2 className="mt-4 text-balance text-3xl font-semibold leading-tight tracking-[-0.04em] sm:text-4xl">
-            {nextCase.title}
-          </h2>
-          <p className="mt-4 text-base leading-8 text-white/70 sm:text-lg">
-            {nextCase.summary}
-          </p>
-        </div>
+    <section className="grid gap-8 border-t border-white/10 pt-8 text-white xl:grid-cols-[minmax(0,0.92fr)_minmax(280px,1.08fr)] xl:items-end xl:pt-10">
+      <div className="space-y-4">
+        <p className="text-sm font-medium text-white/54">Next case</p>
+        <h2 className="max-w-[18ch] text-balance text-[clamp(2.1rem,3.8vw,4rem)] font-semibold leading-[0.95] tracking-[-0.05em] text-white xl:max-w-[16ch]">
+          {nextCase.title}
+        </h2>
+        <p className="max-w-[42rem] text-base leading-8 text-white/68 sm:text-lg">
+          {nextCase.summary}
+        </p>
+      </div>
 
-        <div className="flex flex-wrap gap-3">
-          <ButtonLink href={`/work/${nextCase.slug}`} variant="secondary">
-            {nextCase.linkLabel ?? "Open case"}
-          </ButtonLink>
-          <ButtonLink href="/work" variant="ghost">
-            Browse All Work
-          </ButtonLink>
-        </div>
+      <div className="flex flex-wrap gap-3 xl:justify-end">
+        <ButtonLink href={`/work/${nextCase.slug}`} variant="secondary">
+          {nextCase.linkLabel ?? "Open case"}
+        </ButtonLink>
+        <ButtonLink href="/work" variant="ghost">
+          Browse all work
+        </ButtonLink>
       </div>
     </section>
   );
@@ -724,36 +680,4 @@ function NextCaseSection({ nextCase }: NextCaseSectionProps) {
 
 function findVisual(detail: DetailedCaseStudy, id: string) {
   return detail.visuals.find((visual) => visual.id === id);
-}
-
-type ApproachFlowProps = {
-  steps: string[];
-};
-
-function ApproachFlow({ steps }: ApproachFlowProps) {
-  return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-4 sm:p-5">
-      <p className="eyebrow text-white/40">Flow</p>
-      <div className="mt-5 flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-0">
-        {steps.map((step, index) => (
-          <div
-            key={step}
-            className="flex items-center gap-3 lg:flex-1 lg:gap-0"
-          >
-            <div className="rounded-[1rem] border border-white/10 bg-[#102734]/86 px-4 py-4 text-sm font-medium leading-6 text-white/80 lg:w-full">
-              {step}
-            </div>
-            {index < steps.length - 1 ? (
-              <>
-                <div className="hidden h-px w-8 bg-[linear-gradient(90deg,rgba(22,139,210,0.86),rgba(22,139,210,0.12))] lg:block" />
-                <div className="flex h-6 w-6 items-center justify-center rounded-full border border-[#168BD2]/24 bg-[#168BD2]/10 text-xs text-[#8bcfff] lg:hidden">
-                  &darr;
-                </div>
-              </>
-            ) : null}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 }
