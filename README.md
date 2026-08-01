@@ -1,36 +1,83 @@
-# Anderson Chagas Portfolio
+# Anderson Chagas — Product Portfolio
 
-Initial implementation of a professional portfolio built with Next.js 16, TypeScript and Tailwind CSS.
+Professional portfolio of **Anderson Chagas**, Senior Product Manager, Technical Product Manager, and Senior Product Owner.
 
-## Stack
+The portfolio presents selected work across B2B SaaS, digital transformation, artificial intelligence, data products, APIs, automation, and technical product leadership.
 
-- Next.js App Router
+## Live portfolio
+
+[www.andersonchagas.online](https://www.andersonchagas.online)
+
+## Purpose
+
+This project was created to present product leadership through evidence rather than job titles alone.
+
+The case studies explain:
+
+- the product or business problem;
+- the context and constraints;
+- the product decisions made;
+- the relationship between business and engineering;
+- the technical and operational considerations;
+- the results or evidence available;
+- the lessons learned.
+
+## Professional positioning
+
+I work at the intersection of business, product, and engineering.
+
+My experience includes:
+
+- product strategy and discovery;
+- roadmaps and backlog prioritization;
+- B2B SaaS and product monetization;
+- enterprise digital transformation;
+- AI-enabled products and automation;
+- APIs, integrations, and data workflows;
+- stakeholder management;
+- cross-functional team leadership;
+- hands-on technical collaboration with engineering teams.
+
+## Selected case studies
+
+### BCS Sports Analytics
+
+Sports data SaaS platform built from the ground up.
+
+**Period:** February 2019 — March 2026
+
+Key evidence:
+
+- 60,000+ users reached;
+- BRL 3M+ in cumulative revenue;
+- multidisciplinary team of up to 12 professionals;
+- product strategy, discovery, roadmap, monetization, analytics, APIs, and AI-enabled experiences.
+
+### Enterprise Service Operations
+
+Enterprise transformation and process automation initiatives involving business discovery, AS-IS/TO-BE process mapping, functional requirements, systems integration, ServiceNow, SAP, OCR, RPA, and Artificial Intelligence.
+
+Sensitive company information is intentionally excluded from the public case.
+
+### AI Intelligence Pipeline
+
+End-to-end product and technical case involving web discovery, structured data extraction, PostgreSQL persistence, semantic search, source traceability, cost estimation, and documented trade-offs.
+
+## Technology
+
+- Next.js 16
+- React 19
 - TypeScript
-- Tailwind CSS
-- Responsive layout with reusable components
-- Metadata, sitemap and robots for basic SEO
+- Tailwind CSS 4
+- Responsive and reusable components
+- Metadata, sitemap, and robots configuration
+- Vercel deployment
 
-## Local Development
+## Project structure
 
-```bash
-npm install
-npm run dev
-```
-
-Open `http://localhost:3000`.
-
-## Current Scope
-
-- premium editorial home page
-- reusable header, footer and section components
-- selected work cards prepared for real case content
-- placeholder routes for `/about`, `/work` and `/work/[slug]`
-- clearly labeled placeholders for links, resume and contact data not provided yet
-
-## Content Still Pending
-
-- LinkedIn, GitHub and Upwork URLs
-- public contact email
-- final resume file
-- approved professional summary copy
-- complete case narratives and visuals
+```text
+app/          Application routes and pages
+components/   Reusable interface components
+data/         Structured portfolio and case-study content
+lib/          Shared helpers and utilities
+public/       Public images, documents, and assets
