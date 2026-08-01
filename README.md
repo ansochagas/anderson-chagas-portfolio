@@ -124,6 +124,23 @@ npm run build
 - Case studies focus on decisions, responsibilities, and transferable product skills.
 - Product and technical claims are presented without inflating scope or ownership.
 
+## AI-assisted development
+
+AI coding assistants were used to accelerate selected activities such as code exploration, initial scaffolding, documentation, refactoring suggestions, test-case generation, and implementation iterations.
+
+I remained responsible for:
+
+- product definition and scope;
+- requirements and acceptance criteria;
+- architecture and data-model decisions;
+- technical and product trade-offs;
+- review and validation of generated code;
+- security and credential hygiene;
+- testing, debugging, and final approval;
+- documentation of limitations and known risks.
+
+AI-generated suggestions were treated as proposals and were not accepted automatically. The final implementation was reviewed against product requirements, technical constraints, security considerations, and expected behavior.
+
 ## Contact
 
 - Portfolio: [andersonchagas.online](https://www.andersonchagas.online)
