@@ -81,3 +81,52 @@ components/   Reusable interface components
 data/         Structured portfolio and case-study content
 lib/          Shared helpers and utilities
 public/       Public images, documents, and assets
+
+```
+
+## Running locally
+
+### Requirements
+
+- Node.js 20+
+- npm
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+### Quality checks
+
+```bash
+npm run lint
+npm run build
+```
+
+## Content principles
+
+- No confidential company data is published.
+- Results are included only when they can be supported.
+- Internal architecture and operational details are simplified when necessary.
+- Case studies focus on decisions, responsibilities, and transferable product skills.
+- Product and technical claims are presented without inflating scope or ownership.
+
+## Contact
+
+- Portfolio: [andersonchagas.online](https://www.andersonchagas.online)
+- LinkedIn: [linkedin.com/in/anderson-chagas-oliveira](https://www.linkedin.com/in/anderson-chagas-oliveira)
+- GitHub: [github.com/ansochagas](https://github.com/ansochagas)
+- Email: [andersonchagas45@gmail.com](mailto:andersonchagas45@gmail.com)
